@@ -10,6 +10,10 @@ const initialState = {
 	loading: false,
 	error: null,
 	currentQuestionIndex: 0,
+	timerStarted: false,
+	startTime: null,
+	elapsedTime: 0,
+	timeUp: false,
 }
 
 const questionsReducer = (state = initialState, action) => {
@@ -59,6 +63,24 @@ const questionsReducer = (state = initialState, action) => {
 				...state,
 				currentQuestionIndex: action.payload.index,
 			}
+		case ActionType.START_TIMER:
+			return {
+				...state,
+				timerStarted: true,
+				startTime: action.payload.startTime,
+			}
+		case ActionType.TIME_UP:
+			return {
+				...state,
+				timeUp: true,
+			}
+		case ActionType.UPDATE_TIMER:
+			return {
+				...state,
+				elapsedTime: action.payload.elapsedTime,
+			}
+		case ActionType.RESET:
+			return initialState
 		default:
 			return state
 	}

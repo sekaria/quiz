@@ -13,6 +13,12 @@ const ActionType = {
 	SELECT_ANSWER: 'SELECT_ANSWER',
 
 	SET_CURRENT_QUESTION_INDEX: 'SET_CURRENT_QUESTION_INDEX',
+
+	START_TIMER: 'START_TIMER',
+	TIME_UP: 'TIME_UP',
+	UPDATE_TIMER: 'UPDATE_TIMER',
+
+	RESET: 'RESET',
 }
 
 function fetchQuestionsRequest() {
@@ -84,6 +90,56 @@ function setCurrentQuestionIndex(index) {
 	}
 }
 
+function startTimer(startTime) {
+	return {
+		type: ActionType.START_TIMER,
+		payload: {
+			startTime,
+		},
+	}
+}
+
+function timeUp() {
+	return {
+		type: ActionType.TIME_UP,
+	}
+}
+
+function updateTimer(elapsedTime) {
+	return {
+		type: ActionType.UPDATE_TIMER,
+		payload: {
+			elapsedTime,
+		},
+	}
+}
+
+function resetState() {
+	return {
+		type: ActionType.RESET,
+	}
+}
+
+function startTimerAction(duration) {
+	return (dispatch) => {
+		const startTime = Date.now()
+
+		dispatch(startTimer(startTime))
+
+		const interval = setInterval(() => {
+			// const elapsedTime = Math.floor((Date.now() - startTime) / 1000)
+			const remainingTime = duration--
+
+			if (remainingTime < 0) {
+				clearInterval(interval)
+				dispatch(timeUp())
+			} else {
+				dispatch(updateTimer(remainingTime))
+			}
+		}, 1000)
+	}
+}
+
 function getQuestions() {
 	return async (dispatch) => {
 		dispatch(fetchQuestionsRequest())
@@ -134,4 +190,4 @@ function checkAnswer() {
 	}
 }
 
-export { ActionType, getQuestions, totalQuestions, selectAnswer, checkAnswer, setCurrentQuestionIndex }
+export { ActionType, getQuestions, totalQuestions, selectAnswer, checkAnswer, setCurrentQuestionIndex, startTimerAction, resetState }

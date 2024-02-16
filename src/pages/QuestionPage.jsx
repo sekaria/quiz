@@ -1,15 +1,16 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import Question from '../components/Questions/Question'
-import { getQuestions, selectAnswer, setCurrentQuestionIndex, checkAnswer } from '../states/questions/action'
+import { getQuestions, selectAnswer, setCurrentQuestionIndex, checkAnswer, startTimerAction, resetState } from '../states/questions/action'
 import ResultPage from './ResultPage'
 
 function QuestionPage() {
 	const dispatch = useDispatch()
-	const { questions, loading, currentQuestionIndex, totalAnswered } = useSelector((state) => state.questions)
+	const { questions, loading, currentQuestionIndex, totalAnswered, elapsedTime, timeUp } = useSelector((state) => state.questions)
 
 	useEffect(() => {
 		dispatch(getQuestions())
+		dispatch(startTimerAction(10))
 	}, [dispatch])
 
 	const handleAnswer = (answer) => {
@@ -23,6 +24,18 @@ function QuestionPage() {
 		}
 	}, [totalAnswered, questions.length, dispatch])
 
+	const doReset = () => {
+		dispatch(resetState())
+		dispatch(getQuestions())
+		dispatch(startTimerAction(10))
+	}
+
+	if (questions.length !== 0) {
+		if (timeUp || questions.length === totalAnswered) {
+			return <ResultPage reset={doReset} />
+		}
+	}
+
 	return (
 		<div>
 			{loading ? (
@@ -34,6 +47,7 @@ function QuestionPage() {
 							<p>{totalAnswered}</p>
 							<span>/</span>
 							<p>{questions.length}</p>
+							<p>Time: {elapsedTime} seconds</p>
 						</div>
 					)}
 					<div>
@@ -43,7 +57,6 @@ function QuestionPage() {
 							</div>
 						)}
 					</div>
-					{totalAnswered === questions.length && <ResultPage />}
 				</>
 			)}
 		</div>
