@@ -45,18 +45,27 @@ const questionsReducer = (state = initialState, action) => {
 		case ActionType.SET_CORRECT_ANSWER:
 			return {
 				...state,
-				correctAnswers: action.payload.count,
+				correctAnswers: {
+					...state.correctAnswers,
+					[action.payload.userId]: action.payload.count,
+				},
 			}
 		case ActionType.SET_INCORRECT_ANSWER:
 			return {
 				...state,
-				wrongAnswers: action.payload.count,
+				wrongAnswers: {
+					...state.wrongAnswers,
+					[action.payload.userId]: action.payload.count,
+				},
 			}
 		case ActionType.SELECT_ANSWER:
 			return {
 				...state,
 				totalAnswered: state.totalAnswered + 1,
-				selectedAnswers: [...state.selectedAnswers, action.payload.answer],
+				selectedAnswers: {
+					...state.selectedAnswers,
+					[action.payload.userId]: action.payload.answer,
+				},
 			}
 		case ActionType.SET_CURRENT_QUESTION_INDEX:
 			return {

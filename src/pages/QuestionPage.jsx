@@ -7,22 +7,26 @@ import ResultPage from './ResultPage'
 function QuestionPage() {
 	const dispatch = useDispatch()
 	const { questions, loading, currentQuestionIndex, totalAnswered, elapsedTime, timeUp } = useSelector((state) => state.questions)
+	const authUser = useSelector((state) => state.authUser)
 
 	useEffect(() => {
 		dispatch(getQuestions())
 		dispatch(startTimerAction(10))
 	}, [dispatch])
 
-	const handleAnswer = (answer) => {
-		dispatch(selectAnswer(answer))
-		dispatch(setCurrentQuestionIndex(currentQuestionIndex + 1))
+	const check = (answer) => {
+		console.log(answer)
+		if (Array.isArray(answer)) {
+			dispatch(selectAnswer({ userId: authUser.id, answer: answer }))
+			dispatch(setCurrentQuestionIndex(currentQuestionIndex + 1))
+		}
 	}
 
 	useEffect(() => {
-		if (totalAnswered === questions.length) {
+		if (timeUp || totalAnswered === questions.length) {
 			dispatch(checkAnswer())
 		}
-	}, [totalAnswered, questions.length, dispatch])
+	}, [totalAnswered, questions.length, timeUp, dispatch])
 
 	const doReset = () => {
 		dispatch(resetState())
@@ -53,7 +57,7 @@ function QuestionPage() {
 					<div>
 						{questions.length > 0 && currentQuestionIndex < questions.length && (
 							<div key={currentQuestionIndex}>
-								<Question question={questions[currentQuestionIndex].question} handleAnswer={handleAnswer} />
+								<Question question={questions[currentQuestionIndex].question} handleAnswer={check} />
 							</div>
 						)}
 					</div>

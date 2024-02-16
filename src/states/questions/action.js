@@ -54,28 +54,31 @@ function setTotalQuestions(total) {
 	}
 }
 
-function setCorrectAnswer(count) {
+function setCorrectAnswer({ userId, count }) {
 	return {
 		type: ActionType.SET_CORRECT_ANSWER,
 		payload: {
+			userId,
 			count,
 		},
 	}
 }
 
-function setIncorrectAnswer(count) {
+function setIncorrectAnswer({ userId, count }) {
 	return {
 		type: ActionType.SET_INCORRECT_ANSWER,
 		payload: {
+			userId,
 			count,
 		},
 	}
 }
 
-function selectAnswer(answer) {
+function selectAnswer({ userId, answer }) {
 	return {
 		type: ActionType.SELECT_ANSWER,
 		payload: {
+			userId,
 			answer,
 		},
 	}
@@ -127,7 +130,6 @@ function startTimerAction(duration) {
 		dispatch(startTimer(startTime))
 
 		const interval = setInterval(() => {
-			// const elapsedTime = Math.floor((Date.now() - startTime) / 1000)
 			const remainingTime = duration--
 
 			if (remainingTime < 0) {
@@ -169,21 +171,24 @@ function checkAnswer() {
 	return async (dispatch, getState) => {
 		try {
 			const state = getState()
+			const { authUser } = getState()
 			const { questions, selectedAnswers } = state.questions
 
 			let correctCount = 0
 			let incorrectCount = 0
 
-			questions.forEach((question, index) => {
-				if (selectedAnswers[index] === question.correct_answer) {
+			questions.forEach((question) => {
+				console.log(selectedAnswers[authUser.id])
+				console.log(question.correct_answer)
+				if (selectedAnswers[authUser.id] == question.correct_answer) {
 					correctCount++
 				} else {
 					incorrectCount++
 				}
 			})
 
-			dispatch(setCorrectAnswer(correctCount))
-			dispatch(setIncorrectAnswer(incorrectCount))
+			dispatch(setCorrectAnswer({ userId: authUser.id, count: correctCount }))
+			dispatch(setIncorrectAnswer({ userId: authUser.id, count: incorrectCount }))
 		} catch (e) {
 			dispatch(fetchQuestionsFailure('Error while checking answered.'))
 		}

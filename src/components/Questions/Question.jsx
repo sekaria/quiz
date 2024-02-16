@@ -3,7 +3,9 @@ import PropTypes from 'prop-types'
 
 function Question({ question, handleAnswer }) {
 	const handleOptionChange = (option) => {
-		handleAnswer(option)
+		let selectedAnswers = []
+		selectedAnswers.push(option)
+		handleAnswer(selectedAnswers)
 	}
 
 	return (

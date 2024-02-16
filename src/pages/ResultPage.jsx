@@ -4,11 +4,13 @@ import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 
 function ResultPage({ reset }) {
+	const authUser = useSelector((state) => state.authUser)
 	const { correctAnswers, wrongAnswers, totalAnswered } = useSelector((state) => state.questions)
+
 	return (
 		<div>
-			<p>Correct answered: {correctAnswers}</p>
-			<p>Wrong answered: {wrongAnswers}</p>
+			<p>Correct answered: {correctAnswers[authUser.id]}</p>
+			<p>Wrong answered: {wrongAnswers[authUser.id]}</p>
 			<p>Total answered: {totalAnswered}</p>
 			<Link to="/">Back to homepage</Link>
 			<button onClick={reset}>Take quiz again</button>
