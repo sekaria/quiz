@@ -7,8 +7,9 @@ import Loading from '../components/Loading'
 
 function QuestionPage() {
 	const dispatch = useDispatch()
-	const { questions, loading, currentQuestionIndex, totalAnswered, elapsedTime, timeUp } = useSelector((state) => state.questions)
 	const authUser = useSelector((state) => state.authUser)
+	const { questions, loading, currentQuestionIndex, elapsedTime, timeUp, nowAnswered } = useSelector((state) => state.questions)
+	// const totalAnswered = useSelector((state) => state.questions.totalAnswered[authUser.id] || 0)
 	const [formattedTime, setFormattedTime] = useState('00:00')
 
 	useEffect(() => {
@@ -31,10 +32,10 @@ function QuestionPage() {
 	}
 
 	useEffect(() => {
-		if (timeUp || totalAnswered === questions.length) {
+		if (timeUp || nowAnswered === questions.length) {
 			dispatch(checkAnswer())
 		}
-	}, [totalAnswered, questions.length, timeUp, dispatch])
+	}, [nowAnswered, questions.length, timeUp, dispatch])
 
 	const doReset = () => {
 		dispatch(resetState())
@@ -43,7 +44,7 @@ function QuestionPage() {
 	}
 
 	if (questions.length !== 0) {
-		if (timeUp || questions.length === totalAnswered) {
+		if (timeUp || nowAnswered === questions.length) {
 			return <ResultPage reset={doReset} />
 		}
 	}
@@ -54,10 +55,10 @@ function QuestionPage() {
 				<Loading />
 			) : (
 				<div className="max-w-[1640px] mx-auto p-4">
-					{totalAnswered !== questions.length && (
+					{nowAnswered !== questions.length && (
 						<div className="flex flex-row justify-between items-center mb-4">
 							<p className="text-lg">
-								Total Answered: {totalAnswered} / {questions.length}
+								Total Answered: {nowAnswered} / {questions.length}
 							</p>
 							<p className="text-lg">{formattedTime}</p>
 						</div>

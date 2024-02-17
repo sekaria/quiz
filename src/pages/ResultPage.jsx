@@ -5,7 +5,7 @@ import { VscDebugRestart } from 'react-icons/vsc'
 
 function ResultPage({ reset }) {
 	const authUser = useSelector((state) => state.authUser)
-	const { totalAnswered } = useSelector((state) => state.questions)
+	const totalAnswered = useSelector((state) => state.questions.totalAnswered[authUser.id] || 0)
 	const { correctAnswers, wrongAnswers } = useSelector((state) => state.questions.userAnswers[authUser.id] || {})
 
 	return (

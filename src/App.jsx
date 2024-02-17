@@ -5,12 +5,10 @@ import { asyncPreloadProcess } from './states/isPreload/action.js'
 import { asyncUnsetAuthUser } from './states/authUser/action.js'
 
 import LoginPage from './pages/LoginPage.jsx'
-// import Loading from './components/Loading'
 import Navigation from './components/Navigation/Navigation.jsx'
 import RegisterPage from './pages/RegisterPage.jsx'
 import NotFoundPage from './pages/NotFoundPage.jsx'
 import HomePage from './pages/HomePage.jsx'
-// import Tes from './components/Tes.jsx'
 import QuestionPage from './pages/QuestionPage.jsx'
 
 function App() {
@@ -30,7 +28,6 @@ function App() {
 	if (authUser === null) {
 		return (
 			<>
-				{/* <Loading /> */}
 				<Routes>
 					<Route path="/*" element={<LoginPage />} />
 					<Route path="/register" element={<RegisterPage />} />
@@ -40,8 +37,7 @@ function App() {
 	}
 	return (
 		<>
-			{/* <Loading /> */}
-			<div className="app-container">
+			<div>
 				<Navigation authUser={authUser} signOut={onSignOut} />
 				<Routes>
 					<Route path="/" element={<HomePage />} />

@@ -9,6 +9,7 @@ const ActionType = {
 
 	SET_CORRECT_ANSWER: 'SET_CORRECT_ANSWER',
 	SET_INCORRECT_ANSWER: 'SET_INCORRECT_ANSWER',
+	SET_TOTAL_ANSWERED: 'SET_TOTAL_ANSWERED',
 
 	SELECT_ANSWER: 'SELECT_ANSWER',
 
@@ -67,6 +68,16 @@ function setCorrectAnswer({ userId, count }) {
 function setIncorrectAnswer({ userId, count }) {
 	return {
 		type: ActionType.SET_INCORRECT_ANSWER,
+		payload: {
+			userId,
+			count,
+		},
+	}
+}
+
+function setTotalAnswered({ userId, count }) {
+	return {
+		type: ActionType.SET_TOTAL_ANSWERED,
 		payload: {
 			userId,
 			count,
@@ -176,6 +187,11 @@ function checkAnswer() {
 
 			let correctCount = 0
 			let incorrectCount = 0
+			let totalAnswered = 0
+
+			if (selectedAnswers[authUser.id]) {
+				totalAnswered = Object.keys(selectedAnswers[authUser.id]).length
+			}
 
 			questions.forEach((question, index) => {
 				console.log(selectedAnswers[authUser.id][index])
@@ -189,10 +205,11 @@ function checkAnswer() {
 
 			dispatch(setCorrectAnswer({ userId: authUser.id, count: correctCount }))
 			dispatch(setIncorrectAnswer({ userId: authUser.id, count: incorrectCount }))
+			dispatch(setTotalAnswered({ userId: authUser.id, count: totalAnswered }))
 		} catch (e) {
 			dispatch(fetchQuestionsFailure('Error while checking answered.'))
 		}
 	}
 }
 
-export { ActionType, getQuestions, totalQuestions, selectAnswer, checkAnswer, setCurrentQuestionIndex, startTimerAction, resetState }
+export { ActionType, getQuestions, totalQuestions, selectAnswer, checkAnswer, setCurrentQuestionIndex, startTimerAction, resetState, setTotalAnswered }

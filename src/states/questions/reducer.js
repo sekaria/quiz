@@ -15,6 +15,7 @@ const initialState = {
 	elapsedTime: 0,
 	timeUp: false,
 	userAnswers: [],
+	nowAnswered: 0,
 }
 
 const questionsReducer = (state = initialState, action) => {
@@ -65,10 +66,18 @@ const questionsReducer = (state = initialState, action) => {
 					},
 				},
 			}
+		case ActionType.SET_TOTAL_ANSWERED:
+			return {
+				...state,
+				totalAnswered: {
+					...state.totalAnswered,
+					[action.payload.userId]: action.payload.count,
+				},
+			}
 		case ActionType.SELECT_ANSWER:
 			return {
 				...state,
-				totalAnswered: state.totalAnswered + 1,
+				nowAnswered: state.nowAnswered + 1,
 				selectedAnswers: {
 					...state.selectedAnswers,
 					[action.payload.userId]: {

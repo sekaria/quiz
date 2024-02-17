@@ -8,7 +8,7 @@ function LoginInput({ login }) {
 	const [password, onPasswordChange] = useInput('')
 
 	return (
-		<div className="flex flex-col items-center justify-center p-5">
+		<div className="flex flex-col items-center justify-center p-5 ">
 			<h1 className="text-3xl font-bold text-center">Welcome</h1>
 			<form className="space-y-4 max-w-xs mx-auto">
 				<div className="flex flex-col items-start">

@@ -16,7 +16,7 @@ function RegisterPage() {
 	return (
 		<div className="h-screen flex justify-center items-center bg-blue-500">
 			<section className="max-w-[1640px] mx-auto">
-				<article className="bg-opacity-25 bg-white rounded-lg">
+				<article className="bg-white rounded-lg">
 					<RegisterInput register={onRegister} />
 				</article>
 			</section>
