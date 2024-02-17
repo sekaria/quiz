@@ -9,16 +9,16 @@ function Question({ question, handleAnswer }) {
 	}
 
 	return (
-		<div className="bg-white rounded-lg shadow-lg p-4">
-			<h2 className="text-xl font-semibold mb-4">{question}</h2>
-			<div className="space-x-4">
-				<label className="block">
-					<input type="radio" name="answer" value="true" onChange={() => handleOptionChange('True')} className="mr-2" />
-					True
+		<div className="flex flex-col items-center">
+			<h2 className="text-xl font-bold w-3/4 text-center">{question}</h2>
+			<div className="flex flex-row items-center justify-center space-x-4 mt-14">
+				<label>
+					<input type="radio" name="answer" value="true" onChange={() => handleOptionChange('True')} className="hidden" />
+					<span className="outline outline-1 rounded-lg py-10 px-14 hover:bg-blue-500 hover:text-white hover:outline-white">True</span>
 				</label>
-				<label className="block">
-					<input type="radio" name="answer" value="false" onChange={() => handleOptionChange('False')} className="mr-2" />
-					False
+				<label>
+					<input type="radio" name="answer" value="false" onChange={() => handleOptionChange('False')} className="hidden" />
+					<span className="outline outline-1 rounded-lg py-10 px-14 hover:bg-blue-500 hover:text-white hover:outline-white">False</span>
 				</label>
 			</div>
 		</div>

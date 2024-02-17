@@ -171,16 +171,16 @@ function checkAnswer() {
 	return async (dispatch, getState) => {
 		try {
 			const state = getState()
-			const { authUser } = getState()
+			const { authUser } = state
 			const { questions, selectedAnswers } = state.questions
 
 			let correctCount = 0
 			let incorrectCount = 0
 
-			questions.forEach((question) => {
-				console.log(selectedAnswers[authUser.id])
+			questions.forEach((question, index) => {
+				console.log(selectedAnswers[authUser.id][index])
 				console.log(question.correct_answer)
-				if (selectedAnswers[authUser.id] == question.correct_answer) {
+				if (selectedAnswers[authUser.id][index] == question.correct_answer) {
 					correctCount++
 				} else {
 					incorrectCount++

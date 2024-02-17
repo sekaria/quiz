@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import RegisterInput from '../components/Register/RegisterInput'
 import { useDispatch } from 'react-redux'
 import { asyncRegisterUser } from '../states/users/action'
@@ -14,18 +14,13 @@ function RegisterPage() {
 	}
 
 	return (
-		<section className="">
-			<header className="">
-				<h1>Register</h1>
-			</header>
-			<article className="">
-				<RegisterInput register={onRegister} />
-
-				<p>
-					Already have an account? <Link to="/">Login</Link>
-				</p>
-			</article>
-		</section>
+		<div className="h-screen flex justify-center items-center bg-blue-500">
+			<section className="max-w-[1640px] mx-auto">
+				<article className="bg-opacity-25 bg-white rounded-lg">
+					<RegisterInput register={onRegister} />
+				</article>
+			</section>
+		</div>
 	)
 }
 

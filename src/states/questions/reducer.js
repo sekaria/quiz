@@ -14,6 +14,7 @@ const initialState = {
 	startTime: null,
 	elapsedTime: 0,
 	timeUp: false,
+	userAnswers: [],
 }
 
 const questionsReducer = (state = initialState, action) => {
@@ -45,17 +46,23 @@ const questionsReducer = (state = initialState, action) => {
 		case ActionType.SET_CORRECT_ANSWER:
 			return {
 				...state,
-				correctAnswers: {
-					...state.correctAnswers,
-					[action.payload.userId]: action.payload.count,
+				userAnswers: {
+					...state.userAnswers,
+					[action.payload.userId]: {
+						...state.userAnswers[action.payload.userId],
+						correctAnswers: action.payload.count,
+					},
 				},
 			}
 		case ActionType.SET_INCORRECT_ANSWER:
 			return {
 				...state,
-				wrongAnswers: {
-					...state.wrongAnswers,
-					[action.payload.userId]: action.payload.count,
+				userAnswers: {
+					...state.userAnswers,
+					[action.payload.userId]: {
+						...state.userAnswers[action.payload.userId],
+						wrongAnswers: action.payload.count,
+					},
 				},
 			}
 		case ActionType.SELECT_ANSWER:
@@ -64,7 +71,10 @@ const questionsReducer = (state = initialState, action) => {
 				totalAnswered: state.totalAnswered + 1,
 				selectedAnswers: {
 					...state.selectedAnswers,
-					[action.payload.userId]: action.payload.answer,
+					[action.payload.userId]: {
+						...state.selectedAnswers[action.payload.userId],
+						[state.currentQuestionIndex]: action.payload.answer,
+					},
 				},
 			}
 		case ActionType.SET_CURRENT_QUESTION_INDEX:
