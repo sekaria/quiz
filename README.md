@@ -1,3 +1,7 @@
+API:
+1. Register dan login: https://forum-api.dicoding.dev/v1#/
+2. Quiz: https://opentdb.com/api.php?amount=5&category=9&difficulty=easy&type=boolean
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
